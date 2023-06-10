@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+    <title>CarotidSegPro</title>
+</head>
+<body>
+<h2 class="header">CarotidSegPro</h2>
+
+<div class="container">
+    <input type="file" id="file" accept="image/*" hidden>
+    <div class="img-area" data-img="">
+        <i class='bx bxs-cloud-upload icon'></i>
+        <h3>Upload Image</h3>
+        <p>Image size must be less than <span>2MB</span></p>
+    </div>
+    <form action="/predict" method="POST" enctype="multipart/form-data">
+        <input type="file" id="input-file" name="image" accept="image/*" onchange="previewImage(event)">
+        <input type="submit" class="upload-img" value="Upload">
+    </form>
+</div>
+
+<script>
+    function previewImage(event) {
+        var imgArea = document.querySelector('.img-area');
+        var img = document.createElement('img');
+        img.src = URL.createObjectURL(event.target.files[0]);
+        img.onload = function() {
+            URL.revokeObjectURL(img.src);
+        };
+        imgArea.innerHTML = '';
+        imgArea.appendChild(img);
+        imgArea.classList.add('active');
+    }
+</script>
+
+</body>
+
+<style>
+	.header {
+		text-align: center;
+		font-size: 32px;
+		font-weight: bold;
+		margin-bottom: 600px;
+		margin-left : -50px;
+		color: var(--blue); /* Set the color to your desired value */
+	}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --blue: #0071FF;
+    --light-blue: #B6DBF6;
+    --dark-blue: #005DD1;
+    --grey: #f2f2f2;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: var(--light-blue);
+	
+}
+
+
+.container {
+    max-width: 400px;
+    width: 100%;
+    background: #fff;
+    padding: 30px;
+    border-radius: 30px;
+	margin-left:-200px;
+}
+.img-area {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    background: var(--grey);
+    margin-bottom: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.img-area .icon {
+    font-size: 100px;
+}
+.img-area h3 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+.img-area p {
+    color: #999;
+}
+.img-area p span {
+    font-weight: 600;
+}
+.img-area img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 100;
+}
+.img-area::before {
+    content: attr(data-img);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .5);
+    color: #fff;
+    font-weight: 500;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: all .3s ease;
+    z-index: 200;
+}
+.img-area.active:hover::before {
+    opacity: 1;
+}
+.select-image {
+    display: block;
+    width: 100%;
+    padding: 16px 0;
+    border-radius: 15px;
+    margin : 10px;
+    background: var(--blue);
+    color: #fff;
+    font-weight: 500;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+
+    transition: all .3s ease;
+}
+.upload-img {
+    display: block;
+    width: 100%;
+    padding: 16px 0;
+    border-radius: 15px;
+    margin : 10px;
+    background: var(--blue);
+    color: #fff;
+    font-weight: 500;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+.select-image:hover {
+    background: var(--dark-blue);
+}
+</style>
+</html>
