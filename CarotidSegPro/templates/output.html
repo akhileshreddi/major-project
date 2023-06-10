@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CarotidSegPro</title>
+    <style>
+    body {
+      background: lightblue;
+    }
+    .polaroid-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .polaroid {
+      margin: 30px;
+      width: 20%;
+      background-color: white;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    img {
+      width: 100%;
+      transition: transform 0.3s ease;
+    }
+    .zoom-left {
+      width: 550px;
+      transform-origin: left;
+      transform: scale(1.2);
+    }
+    .zoom-right {
+      width: 550px;
+      transform-origin: right;
+      transform: scale(1.2);
+    }
+    .container {
+      text-align: center;
+      padding: 10px 20px;
+    }
+    .upload-link {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .button-link {
+      margin-top: 10px;
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #0071FF;
+      color: #FFF;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    .button-link:hover {
+      background-color: #005DD1;
+    }
+    </style>
+</head>
+<body>
+    <h1></h1>
+    {% if prediction %}
+    <div class="polaroid-container">
+      <div class="polaroid">
+        <img src="data:image/png;base64,{{ image }}" onMouseOver="zoomRight(this)" onMouseOut="zoomReset(this)" alt="Uploaded Image" >
+        <div class="container">
+          <p>Uploaded Image</p>
+        </div>
+      </div>
+      <div class="polaroid">
+        <img src="data:image/png;base64,{{ prediction }}" onMouseOver="zoomLeft(this)" onMouseOut="zoomReset(this)" alt="Predicted Image">
+        <div class="container">
+          <p>Predicted Image</p>
+        </div>
+     </div>
+    </div>
+    <div class="upload-link">
+        <br>
+        <br>
+        <a href="/" class="button-link">Back to Upload</a>
+        <br>
+        <a href="{{ url_for('download_prediction') }}" download="prediction.png" class="button-link">Download Prediction</a>
+        <br>
+    </div>
+    {% endif %}
+
+    <script>
+    function zoomLeft(image) {
+      image.classList.add("zoom-left");
+    }
+    function zoomRight(image) {
+      image.classList.add("zoom-right");
+    }
+    function zoomReset(image) {
+      image.classList.remove("zoom-left");
+      image.classList.remove("zoom-right");
+    }
+    </script>
+</body>
+</html>
